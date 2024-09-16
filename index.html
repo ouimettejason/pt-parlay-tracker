@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Current Week Picks</title>
+  <style>
+    /* General body styling for a clean Apple-like look */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #F5F5F7;
+      color: #1C1C1E;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+      color: #007AFF;  /* Apple’s signature blue */
+      margin-bottom: 20px;
+    }
+
+    /* Table styling to resemble Apple's clean design */
+    table {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-spacing: 0;
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 16px;
+      text-align: left;
+      font-size: 16px;
+      color: #1C1C1E;
+    }
+
+    th {
+      background-color: #F5F5F7;
+      font-weight: 600;
+      border-bottom: 1px solid #D1D1D6;
+    }
+
+    td {
+      border-bottom: 1px solid #E5E5EA;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Row hover effect */
+    tr:hover {
+      background-color: #F2F2F7;
+    }
+
+    /* Subtle button styling */
+    button {
+      font-size: 16px;
+      font-weight: 500;
+      color: white;
+      background-color: #007AFF;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      cursor: pointer;
+      margin: 20px auto;
+      display: block;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005FCC;
+    }
+
+    /* Center the content inside the body */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Current Week Picks</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Player</th>
+          <th>Type</th>
+          <th>Threshold</th>
+        </tr>
+      </thead>
+      <tbody id="picksTable">
+        <!-- Data will be inserted here dynamically -->
+      </tbody>
+    </table>
+
+    <!-- Example of a refresh button -->
+    <button onclick="refreshPicks()">Refresh Picks</button>
+  </div>
+
+  <script>
+    // Google Apps Script to fetch current week picks and insert into table
+    google.script.run.withSuccessHandler(function(picks) {
+      const table = document.getElementById('picksTable');
+      table.innerHTML = '';  // Clear table before appending
+
+      picks.forEach(function(pick) {
+        let row = table.insertRow();
+        pick.slice(0, 4).forEach(function(cellData) {
+          let cell = row.insertCell();
+          cell.textContent = cellData;
+        });
+      });
+    }).getCurrentWeekPicks();
+
+    // Simple refresh function for reloading picks
+    function refreshPicks() {
+      google.script.run.withSuccessHandler(function(picks) {
+        const table = document.getElementById('picksTable');
+        table.innerHTML = '';  // Clear table before appending
+
+        picks.forEach(function(pick) {
+          let row = table.insertRow();
+          pick.slice(0, 4).forEach(function(cellData) {
+            let cell = row.insertCell();
+            cell.textContent = cellData;
+          });
+        });
+      }).getCurrentWeekPicks();
+    }
+  </script>
+
+</body>
+</html>
